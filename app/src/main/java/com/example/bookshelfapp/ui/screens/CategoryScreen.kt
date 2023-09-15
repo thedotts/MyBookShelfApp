@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,38 +31,47 @@ import com.example.bookshelfapp.model.Book
 import com.example.bookshelfapp.model.ImageLinks
 import com.example.bookshelfapp.model.VolumeInfo
 import com.example.bookshelfapp.ui.theme.BookshelfAppTheme
+import kotlin.reflect.KFunction1
 
 @Composable
 fun CategoryScreen(
-                   bookShelfUiState: BookShelfUiState,
-                   bookUiState:BookUiState,
-                   retryAction: () -> Unit,
-                   modifier: Modifier = Modifier
+    bookShelfUiState: BookShelfUiState,
+    bookUiState:BookUiState,
+    onButtonClicked: () -> Unit,
+    setBookAction: KFunction1<Book, Unit>,
+    retryAction: () -> Unit,
+    modifier: Modifier = Modifier
 ){
     Log.d("CategoryScreen",(bookShelfUiState == BookShelfUiState.Loading).toString() )
     when (bookShelfUiState) {
         is BookShelfUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
         is BookShelfUiState.Success -> BookList(
+//            bookShelfUiState = bookShelfUiState,
+//            bookUiState= bookUiState,
             books = bookShelfUiState.books.items,
             category = bookUiState.categoryType,
+            onButtonClicked = onButtonClicked,
+            setBookAction = setBookAction,
             modifier = Modifier.fillMaxSize()
         )
         is BookShelfUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
-
 }
 
 @Composable
 fun BookList(
+//    bookShelfUiState: BookShelfUiState,
+//    bookUiState:BookUiState,
     books: List<Book>,
     category:CategoryType,
+    onButtonClicked: () -> Unit,
+    setBookAction: KFunction1<Book, Unit>,
     modifier: Modifier = Modifier
 ){
     Log.d("CategoryScreen","BookList is called")
     Log.d("CategoryScreen",category.name)
     Log.d("CategoryScreen","${books.size}")
 //    Log.d("CategoryScreen","${books.toString()}")
-
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(4.dp)
@@ -70,7 +80,8 @@ fun BookList(
             BookItem(
                 book = it,
                 categoryType = category,
-                onButtonClicked = {}
+                onButtonClicked = onButtonClicked,
+                setBookAction = setBookAction,
             )
         }
     }
@@ -79,7 +90,8 @@ fun BookList(
 fun BookItem(
     book: Book,
     categoryType: CategoryType,
-    onButtonClicked: (CategoryType) -> Unit,
+    onButtonClicked: () -> Unit,
+    setBookAction: KFunction1<Book, Unit>,
     modifier: Modifier = Modifier
 ){
 //    Log.d("CategoryScreen","BookItem is called")
@@ -87,7 +99,8 @@ fun BookItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-                onButtonClicked.invoke(categoryType)
+                setBookAction.invoke(book)
+                onButtonClicked.invoke()
                 Log.d("BookItem", "Clicked")
             }
     ){

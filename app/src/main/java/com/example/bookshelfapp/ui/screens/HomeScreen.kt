@@ -39,7 +39,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier
     //bookShelfUiState: BookShelfUiState, retryAction: () -> Unit, modifier: Modifier = Modifier
 ) {
-    CategoryListScreen(
+    CategoryList(
         onFictionButtonClicked,
         onMysteryButtonClicked,
         onCrimeButtonClicked,
@@ -82,7 +82,7 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CategoryListScreen(
+fun CategoryList(
     onFictionButtonClicked: () -> Unit,
     onMysteryButtonClicked: () -> Unit,
     onCrimeButtonClicked: () -> Unit,

@@ -29,7 +29,9 @@ import com.example.bookshelfapp.model.VolumeInfo
 import com.example.bookshelfapp.ui.theme.BookshelfAppTheme
 
 @Composable
-fun BookScreen(book: Book, modifier: Modifier = Modifier){
+fun BookScreen(
+    book: Book?,
+    modifier: Modifier = Modifier){
     Column (
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -37,9 +39,9 @@ fun BookScreen(book: Book, modifier: Modifier = Modifier){
             .fillMaxSize()
     ){
         Log.d("BookScreen","BookScreen is called")
-        ImageContainer(book.volumeInfo.imageLinks.thumbnailSrc, book.volumeInfo.title, modifier = modifier.padding(15.dp))
+        ImageContainer(book!!.volumeInfo.imageLinks.thumbnailSrc, book.volumeInfo.title, modifier = modifier.padding(15.dp))
         Spacer(modifier = Modifier.padding(top = 5.dp))
-        BookDetail(book, modifier = modifier.padding(15.dp))
+        BookDetail(book!!, modifier = modifier.padding(15.dp))
     }
 }
 
@@ -47,7 +49,7 @@ fun BookScreen(book: Book, modifier: Modifier = Modifier){
 fun ImageContainer(imageSrc: String, title:String, modifier: Modifier = Modifier){
     Box(modifier){
         AsyncImage(
-            model = ImageRequest.Builder(context = LocalContext.current).data(imageSrc)
+            model = ImageRequest.Builder(context = LocalContext.current).data(imageSrc.replace("http","https"))
                 .crossfade(true).build(),
             error = painterResource(id = R.drawable.ic_broken_image),
             contentScale = ContentScale.Crop,
