@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Items(
+data class BookItems(
     val totalItems: Int,
     val items: List<Book>
 )
@@ -31,10 +31,3 @@ data class ImageLinks(
     @SerialName(value = "thumbnail")
     val thumbnailSrc: String
 )
-
-enum class Categories{
-    Fiction,
-    Mystery,
-    Crime,
-    Fantasy
-}

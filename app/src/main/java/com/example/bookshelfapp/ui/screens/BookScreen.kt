@@ -1,5 +1,6 @@
 package com.example.bookshelfapp.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ fun BookScreen(book: Book, modifier: Modifier = Modifier){
         modifier = modifier
             .fillMaxSize()
     ){
+        Log.d("BookScreen","BookScreen is called")
         ImageContainer(book.volumeInfo.imageLinks.thumbnailSrc, book.volumeInfo.title, modifier = modifier.padding(15.dp))
         Spacer(modifier = Modifier.padding(top = 5.dp))
         BookDetail(book, modifier = modifier.padding(15.dp))
