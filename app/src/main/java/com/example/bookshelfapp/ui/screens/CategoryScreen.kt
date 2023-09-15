@@ -5,12 +5,14 @@ import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,7 +43,7 @@ fun CategoryScreen(
         is BookShelfUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
         is BookShelfUiState.Success -> BookList(
             books = bookShelfUiState.books.items,
-            category = bookUiState.categoryType!!,
+            category = bookUiState.categoryType,
             modifier = Modifier.fillMaxSize()
         )
         is BookShelfUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
@@ -55,20 +57,21 @@ fun BookList(
     category:CategoryType,
     modifier: Modifier = Modifier
 ){
-//    Log.d("CategoryScreen","BookList is called")
-//    Log.d("CategoryScreen","${books.size}")
+    Log.d("CategoryScreen","BookList is called")
+    Log.d("CategoryScreen",category.name)
+    Log.d("CategoryScreen","${books.size}")
 //    Log.d("CategoryScreen","${books.toString()}")
 
-    LazyColumn(){
-        items(books.size){
-            books.forEach{
-//                Log.d("CategoryScreen","${it.volumeInfo.title}")
-                BookItem(
-                    book = it,
-                    categoryType = category,
-                    onButtonClicked = {}
-                )
-            }
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(4.dp)
+    ){
+        items(books){
+            BookItem(
+                book = it,
+                categoryType = category,
+                onButtonClicked = {}
+            )
         }
     }
 }
@@ -94,6 +97,7 @@ fun BookItem(
             modifier = Modifier
                 .fillMaxWidth()
         ){
+            Log.d("CategoryScreen","${book.volumeInfo.imageLinks.smallThumbnailSrc}")
             BookImage(book.volumeInfo.imageLinks.smallThumbnailSrc, book.volumeInfo.title, modifier = Modifier)
             Text(
                 text = book.volumeInfo.title,

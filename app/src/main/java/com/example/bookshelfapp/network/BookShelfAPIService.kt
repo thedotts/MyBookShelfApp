@@ -4,10 +4,10 @@ import com.example.bookshelfapp.model.BookItems
 import retrofit2.http.GET
 
 interface BookShelfAPIService {
-    @GET("volumes?q=incategories+Fiction&maxResults=1")
+    @GET("volumes?q=incategories+Fiction&maxResults=5")
     suspend fun getFictionBooks():BookItems
 
-    @GET("volumes?q=incategories+Mystery&maxResults=2")
+    @GET("volumes?q=incategories+Mystery&maxResults=4")
     suspend fun getMysteryBooks():BookItems
 
     @GET("volumes?q=incategories+Crime&maxResults=2")

@@ -31,7 +31,8 @@ enum class CategoryType{
     Fiction,
     Mystery,
     Crime,
-    Fantasy
+    Fantasy,
+    None
 }
 
 enum class PageType{
@@ -42,7 +43,7 @@ enum class PageType{
 
 data class BookUiState(
     val pageType: PageType = PageType.Home,
-    val categoryType: CategoryType? = null,
+    val categoryType: CategoryType = CategoryType.None,
     val bookList: List<Book> = emptyList(),
     val currentBook: Book? = null,
 )

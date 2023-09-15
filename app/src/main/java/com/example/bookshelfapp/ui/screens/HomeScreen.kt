@@ -91,7 +91,7 @@ fun CategoryListScreen(
     setScreenAction: () -> Unit,
     modifier: Modifier = Modifier
 ){
-
+    Log.d("HomeScreen","CategoryListScreen")
     Column(modifier = modifier) {
         CategoryCard(onFictionButtonClicked, getBookAction, setScreenAction,R.drawable.fictionimage,"Fiction", Modifier.padding(5.dp))
         CategoryCard(onMysteryButtonClicked, getBookAction, setScreenAction,R.drawable.misteryimage,"Mystery", Modifier.padding(5.dp))
