@@ -97,7 +97,6 @@ fun BookItem(
             modifier = Modifier
                 .fillMaxWidth()
         ){
-            Log.d("CategoryScreen","${book.volumeInfo.imageLinks.smallThumbnailSrc}")
             BookImage(book.volumeInfo.imageLinks.smallThumbnailSrc, book.volumeInfo.title, modifier = Modifier)
             Text(
                 text = book.volumeInfo.title,
@@ -119,8 +118,10 @@ fun BookImage(imageSrc: String, title:String, modifier: Modifier = Modifier){
         contentAlignment = Alignment.Center,
         modifier = modifier
     ){
+        Log.d("CategoryScreen","$imageSrc")
+
         AsyncImage(
-            model = ImageRequest.Builder(context = LocalContext.current).data(imageSrc)
+            model = ImageRequest.Builder(context = LocalContext.current).data(imageSrc.replace("http","https"))
                 .crossfade(true).build(),
             error = painterResource(id = R.drawable.ic_broken_image),
             contentScale = ContentScale.Crop,
