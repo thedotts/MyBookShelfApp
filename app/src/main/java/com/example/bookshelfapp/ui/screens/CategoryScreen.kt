@@ -1,6 +1,8 @@
 package com.example.bookshelfapp.ui.screens
 
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -8,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Card
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,42 +25,78 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.bookshelfapp.R
 import com.example.bookshelfapp.model.Book
-import com.example.bookshelfapp.model.Categories
 import com.example.bookshelfapp.model.ImageLinks
 import com.example.bookshelfapp.model.VolumeInfo
 import com.example.bookshelfapp.ui.theme.BookshelfAppTheme
 
 @Composable
-fun CategoryScreen(categories: Array<CategoryType>,
+fun CategoryScreen(
                    bookShelfUiState: BookShelfUiState,
                    bookUiState:BookUiState,
                    retryAction: () -> Unit,
-                   onFictionButtonClicked: (Int) -> Unit,
-                   onMysteryButtonClicked: (Int) -> Unit,
-                   onCrimeButtonClicked: (Int) -> Unit,
-                   onFantasyButtonClicked: (Int) -> Unit,
                    modifier: Modifier = Modifier
 ){
-
+    Log.d("CategoryScreen",(bookShelfUiState == BookShelfUiState.Loading).toString() )
     when (bookShelfUiState) {
         is BookShelfUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is BookShelfUiState.Success -> BookShelfScreen(
-            modifier = modifier.fillMaxSize()
+        is BookShelfUiState.Success -> BookList(
+            books = bookShelfUiState.books.items,
+            category = bookUiState.categoryType!!,
+            modifier = Modifier.fillMaxSize()
         )
         is BookShelfUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
-        is BookShelfUiState.Home -> HomeScreen()
     }
-    Box(modifier = modifier
-        .fillMaxWidth()){
+
+}
+
+@Composable
+fun BookList(
+    books: List<Book>,
+    category:CategoryType,
+    modifier: Modifier = Modifier
+){
+//    Log.d("CategoryScreen","BookList is called")
+//    Log.d("CategoryScreen","${books.size}")
+//    Log.d("CategoryScreen","${books.toString()}")
+
+    LazyColumn(){
+        items(books.size){
+            books.forEach{
+//                Log.d("CategoryScreen","${it.volumeInfo.title}")
+                BookItem(
+                    book = it,
+                    categoryType = category,
+                    onButtonClicked = {}
+                )
+            }
+        }
+    }
+}
+@Composable
+fun BookItem(
+    book: Book,
+    categoryType: CategoryType,
+    onButtonClicked: (CategoryType) -> Unit,
+    modifier: Modifier = Modifier
+){
+//    Log.d("CategoryScreen","BookItem is called")
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable {
+                onButtonClicked.invoke(categoryType)
+                Log.d("BookItem", "Clicked")
+            }
+    ){
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
             modifier = Modifier
                 .fillMaxWidth()
         ){
-            BookImage(bookUiState.currentBook!!.volumeInfo.imageLinks.smallThumbnailSrc, bookUiState.currentBook.volumeInfo.title, modifier = Modifier)
+            BookImage(book.volumeInfo.imageLinks.smallThumbnailSrc, book.volumeInfo.title, modifier = Modifier)
             Text(
-                text = bookUiState.currentBook.volumeInfo.title,
+                text = book.volumeInfo.title,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .fillMaxWidth()

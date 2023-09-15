@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,20 +30,24 @@ import com.example.bookshelfapp.ui.theme.BookshelfAppTheme
 
 @Composable
 fun HomeScreen(
+    getBookAction: () -> Unit,
+    onButtonClicked: () -> Unit,
+    onFictionButtonClicked: () -> Unit,
+    onMysteryButtonClicked: () -> Unit,
+    onCrimeButtonClicked: () -> Unit,
+    onFantasyButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
     //bookShelfUiState: BookShelfUiState, retryAction: () -> Unit, modifier: Modifier = Modifier
 ) {
-    BookShelfScreen(
-            modifier = modifier.fillMaxSize()
-        )
-//    when (bookShelfUiState) {
-//        is BookShelfUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-//        is BookShelfUiState.Success -> BookShelfScreen(
-//            modifier = modifier.fillMaxSize()
-//        )
-//
-//        is BookShelfUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
-//    }
+    CategoryListScreen(
+        onFictionButtonClicked,
+        onMysteryButtonClicked,
+        onCrimeButtonClicked,
+        onFantasyButtonClicked,
+        getBookAction,
+        onButtonClicked,
+        modifier = modifier.fillMaxSize()
+    )
 }
 /**
  * The home screen displaying the loading message.
@@ -77,25 +82,40 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BookShelfScreen(modifier: Modifier = Modifier){
+fun CategoryListScreen(
+    onFictionButtonClicked: () -> Unit,
+    onMysteryButtonClicked: () -> Unit,
+    onCrimeButtonClicked: () -> Unit,
+    onFantasyButtonClicked: () -> Unit,
+    getBookAction: () -> Unit,
+    setScreenAction: () -> Unit,
+    modifier: Modifier = Modifier
+){
 
     Column(modifier = modifier) {
-        CategoryBox({},R.drawable.fictionimage,"Fiction", Modifier.padding(5.dp))
-        CategoryBox({},R.drawable.misteryimage,"Mystery", Modifier.padding(5.dp))
-        CategoryBox({},R.drawable.crimeimage,"Crime", Modifier.padding(5.dp))
-        CategoryBox({},R.drawable.fantasyimage,"Fantasy", Modifier.padding(5.dp))
+        CategoryCard(onFictionButtonClicked, getBookAction, setScreenAction,R.drawable.fictionimage,"Fiction", Modifier.padding(5.dp))
+        CategoryCard(onMysteryButtonClicked, getBookAction, setScreenAction,R.drawable.misteryimage,"Mystery", Modifier.padding(5.dp))
+        CategoryCard(onCrimeButtonClicked, getBookAction, setScreenAction,R.drawable.crimeimage,"Crime", Modifier.padding(5.dp))
+        CategoryCard(onFantasyButtonClicked, getBookAction, setScreenAction,R.drawable.fantasyimage,"Fantasy", Modifier.padding(5.dp))
     }
 }
 
 @Composable
-fun CategoryBox(onItemClick: () -> Unit, @DrawableRes imageRes:Int, category: String, modifier: Modifier = Modifier){
-    Box(
+fun CategoryCard(
+    setCategoryAction: () -> Unit,
+    getBooksAction: () -> Unit,
+    setScreenAction:()->Unit,
+    @DrawableRes imageRes:Int,
+    category: String,
+    modifier: Modifier = Modifier
+){
+    Card(
         modifier = modifier
-        .fillMaxWidth()
-        .clickable {
-                onItemClick.invoke()
-                Log.d("CategoryBox", "Clicked")
-
+            .fillMaxWidth()
+            .clickable {
+                setCategoryAction.invoke()
+                getBooksAction.invoke()
+                setScreenAction.invoke()
             }
     ){
         Row(
@@ -126,14 +146,14 @@ fun CategoryBox(onItemClick: () -> Unit, @DrawableRes imageRes:Int, category: St
 @Composable
 fun BookShelfCardPreview(){
     BookshelfAppTheme {
-        CategoryBox({},R.drawable.fictionimage,category = "Fiction", Modifier.padding(5.dp))
+        //CategoryCard({},R.drawable.fictionimage,category = "Fiction", Modifier.padding(5.dp))
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BookShelfPreview(){
-    BookshelfAppTheme {
-        BookShelfScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun BookShelfPreview(){
+//    BookshelfAppTheme {
+//        //HomeScreen()
+//    }
+//}
