@@ -1,7 +1,5 @@
 package com.example.bookshelfapp.ui.screens
 
-
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,34 +19,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.bookshelfapp.R
 import com.example.bookshelfapp.model.Book
-import com.example.bookshelfapp.model.ImageLinks
-import com.example.bookshelfapp.model.VolumeInfo
-import com.example.bookshelfapp.ui.theme.BookshelfAppTheme
 import kotlin.reflect.KFunction1
 
 @Composable
 fun CategoryScreen(
     bookShelfUiState: BookShelfUiState,
-    bookUiState:BookUiState,
     onButtonClicked: () -> Unit,
     setBookAction: KFunction1<Book, Unit>,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier
 ){
-    Log.d("CategoryScreen",(bookShelfUiState == BookShelfUiState.Loading).toString() )
     when (bookShelfUiState) {
         is BookShelfUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
         is BookShelfUiState.Success -> BookList(
-//            bookShelfUiState = bookShelfUiState,
-//            bookUiState= bookUiState,
             books = bookShelfUiState.books.items,
-            category = bookUiState.categoryType,
             onButtonClicked = onButtonClicked,
             setBookAction = setBookAction,
             modifier = Modifier.fillMaxSize()
@@ -60,18 +48,11 @@ fun CategoryScreen(
 
 @Composable
 fun BookList(
-//    bookShelfUiState: BookShelfUiState,
-//    bookUiState:BookUiState,
     books: List<Book>,
-    category:CategoryType,
     onButtonClicked: () -> Unit,
     setBookAction: KFunction1<Book, Unit>,
     modifier: Modifier = Modifier
 ){
-    Log.d("CategoryScreen","BookList is called")
-    Log.d("CategoryScreen",category.name)
-    Log.d("CategoryScreen","${books.size}")
-//    Log.d("CategoryScreen","${books.toString()}")
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(4.dp)
@@ -79,7 +60,6 @@ fun BookList(
         items(books){
             BookItem(
                 book = it,
-                categoryType = category,
                 onButtonClicked = onButtonClicked,
                 setBookAction = setBookAction,
             )
@@ -89,19 +69,16 @@ fun BookList(
 @Composable
 fun BookItem(
     book: Book,
-    categoryType: CategoryType,
     onButtonClicked: () -> Unit,
     setBookAction: KFunction1<Book, Unit>,
     modifier: Modifier = Modifier
 ){
-//    Log.d("CategoryScreen","BookItem is called")
     Box(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
                 setBookAction.invoke(book)
                 onButtonClicked.invoke()
-                Log.d("BookItem", "Clicked")
             }
     ){
         Row(
@@ -131,8 +108,6 @@ fun BookImage(imageSrc: String, title:String, modifier: Modifier = Modifier){
         contentAlignment = Alignment.Center,
         modifier = modifier
     ){
-        Log.d("CategoryScreen","$imageSrc")
-
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current).data(imageSrc.replace("http","https"))
                 .crossfade(true).build(),
@@ -143,23 +118,5 @@ fun BookImage(imageSrc: String, title:String, modifier: Modifier = Modifier){
                 .size(50.dp)
                 .padding(10.dp)
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CategoryScreenPreview(){
-    BookshelfAppTheme {
-        var fakedata: Book = Book(
-            id = "123",
-            volumeInfo = VolumeInfo(
-                title = "My Great Daddy",
-                authors = listOf("Eriko","Hunter"),
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                imageLinks = ImageLinks("smallThunbnail", "thumbnail"),
-                categories =listOf("Fiction")
-            )
-        )
-        //CategoryScreen(fakedata)
     }
 }

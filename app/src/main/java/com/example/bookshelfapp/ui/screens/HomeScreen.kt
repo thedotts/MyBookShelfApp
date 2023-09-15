@@ -5,7 +5,6 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,11 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bookshelfapp.R
-
-import com.example.bookshelfapp.ui.theme.BookshelfAppTheme
 
 
 @Composable
@@ -37,7 +33,6 @@ fun HomeScreen(
     onCrimeButtonClicked: () -> Unit,
     onFantasyButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
-    //bookShelfUiState: BookShelfUiState, retryAction: () -> Unit, modifier: Modifier = Modifier
 ) {
     CategoryList(
         onFictionButtonClicked,
@@ -141,19 +136,3 @@ fun CategoryCard(
     }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun BookShelfCardPreview(){
-    BookshelfAppTheme {
-        //CategoryCard({},R.drawable.fictionimage,category = "Fiction", Modifier.padding(5.dp))
-    }
-}
-
-//@Preview(showBackground = true)
-//@Composable
-//fun BookShelfPreview(){
-//    BookshelfAppTheme {
-//        //HomeScreen()
-//    }
-//}

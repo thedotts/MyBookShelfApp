@@ -1,6 +1,5 @@
 package com.example.bookshelfapp.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,15 +17,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.bookshelfapp.R
 import com.example.bookshelfapp.model.Book
-import com.example.bookshelfapp.model.ImageLinks
-import com.example.bookshelfapp.model.VolumeInfo
-import com.example.bookshelfapp.ui.theme.BookshelfAppTheme
 
 @Composable
 fun BookScreen(
@@ -38,10 +33,9 @@ fun BookScreen(
         modifier = modifier
             .fillMaxSize()
     ){
-        Log.d("BookScreen","BookScreen is called")
         ImageContainer(book!!.volumeInfo.imageLinks.thumbnailSrc, book.volumeInfo.title, modifier = modifier.padding(15.dp))
         Spacer(modifier = Modifier.padding(top = 5.dp))
-        BookDetail(book!!, modifier = modifier.padding(15.dp))
+        BookDetail(book, modifier = modifier.padding(15.dp))
     }
 }
 
@@ -79,22 +73,5 @@ fun BookDetail( book: Book, modifier: Modifier = Modifier){
                 .fillMaxWidth()
                 .weight(1f)
         )
-    }
-}
-@Preview(showBackground = true)
-@Composable
-fun BookScreenPreview(){
-    BookshelfAppTheme {
-        var fakedata: Book = Book(
-            id = "123",
-            volumeInfo = VolumeInfo(
-                title = "My Great Daddy",
-                authors = listOf("Eriko","Hunter"),
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                imageLinks = ImageLinks("smallThunbnail", "thumbnail"),
-                categories =listOf("Fiction")
-            )
-        )
-        BookScreen(fakedata)
     }
 }

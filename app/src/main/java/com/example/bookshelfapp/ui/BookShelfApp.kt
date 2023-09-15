@@ -91,7 +91,6 @@ fun BookShelfApp(
                 Log.d("BookShelfAppScreen","Category is called")
                 CategoryScreen(
                     bookShelfUiState = bookShelfViewModel.bookShelfUiState,
-                    bookUiState = uiState,
                     onButtonClicked = {navController.navigate(BookShelfScreen.BookInfo.name)},
                     setBookAction = bookShelfViewModel::setBook,
                     retryAction = bookShelfViewModel::getBooks,

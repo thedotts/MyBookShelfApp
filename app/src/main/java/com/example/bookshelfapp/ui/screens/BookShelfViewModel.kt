@@ -24,7 +24,6 @@ sealed interface BookShelfUiState{
     data class Success(val books: BookItems): BookShelfUiState
     object Error: BookShelfUiState
     object Loading: BookShelfUiState
-//    object Home: BookShelfUiState
 }
 
 enum class CategoryType{
@@ -58,8 +57,6 @@ class BookShelfViewModel (
 
     //Set current categoryType
     fun setCategory(categoryType: CategoryType) {
-        Log.d("BookShelfViewModel", categoryType.name)
-
         _uiState.update { currentState ->
             currentState.copy(
                 categoryType = categoryType,
@@ -91,7 +88,6 @@ class BookShelfViewModel (
                     else -> BookShelfUiState.Error
                 }
             }catch (e: IOException) {
-                Log.d("error_message", e.stackTraceToString())
                 BookShelfUiState.Error
             }
         }
