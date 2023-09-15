@@ -119,7 +119,10 @@ fun BookShelfAppBar(
     modifier: Modifier = Modifier
 ){
     TopAppBar(
-        title = { Text(stringResource(currentScreen.title)) },
+        title = { Text(
+            text =stringResource(currentScreen.title),
+            style = MaterialTheme.typography.headlineSmall
+        ) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),

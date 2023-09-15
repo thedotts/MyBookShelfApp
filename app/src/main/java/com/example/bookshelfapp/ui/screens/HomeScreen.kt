@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.bookshelfapp.R
 
-
+/**
+ * The home screen displaying the main content
+ */
 @Composable
 fun HomeScreen(
     getBookAction: () -> Unit,
@@ -86,12 +89,11 @@ fun CategoryList(
     setScreenAction: () -> Unit,
     modifier: Modifier = Modifier
 ){
-    Log.d("HomeScreen","CategoryListScreen")
     Column(modifier = modifier) {
-        CategoryCard(onFictionButtonClicked, getBookAction, setScreenAction,R.drawable.fictionimage,"Fiction", Modifier.padding(5.dp))
-        CategoryCard(onMysteryButtonClicked, getBookAction, setScreenAction,R.drawable.misteryimage,"Mystery", Modifier.padding(5.dp))
-        CategoryCard(onCrimeButtonClicked, getBookAction, setScreenAction,R.drawable.crimeimage,"Crime", Modifier.padding(5.dp))
-        CategoryCard(onFantasyButtonClicked, getBookAction, setScreenAction,R.drawable.fantasyimage,"Fantasy", Modifier.padding(5.dp))
+        CategoryCard(onFictionButtonClicked, getBookAction, setScreenAction,R.drawable.fictionimage,"Fiction", Modifier.fillMaxWidth().padding(1.dp))
+        CategoryCard(onMysteryButtonClicked, getBookAction, setScreenAction,R.drawable.misteryimage,"Mystery", Modifier.fillMaxWidth().padding(1.dp))
+        CategoryCard(onCrimeButtonClicked, getBookAction, setScreenAction,R.drawable.crimeimage,"Crime", Modifier.fillMaxWidth().padding(1.dp))
+        CategoryCard(onFantasyButtonClicked, getBookAction, setScreenAction,R.drawable.fantasyimage,"Fantasy", Modifier.fillMaxWidth().padding(1.dp))
     }
 }
 
@@ -105,6 +107,7 @@ fun CategoryCard(
     modifier: Modifier = Modifier
 ){
     Card(
+        shape = RoundedCornerShape(0.dp),
         modifier = modifier
             .fillMaxWidth()
             .clickable {
@@ -121,12 +124,12 @@ fun CategoryCard(
                 painter = painterResource(imageRes),
                 contentDescription = stringResource(R.string.loading),
                 modifier = Modifier
-                    .size(50.dp)
+                    .size(100.dp)
                     .padding(5.dp)
             )
             Text(
                 text = category,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier
                     .weight(1f)
                     .padding(start = 10.dp)

@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -62,6 +64,7 @@ fun BookList(
                 book = it,
                 onButtonClicked = onButtonClicked,
                 setBookAction = setBookAction,
+                modifier.padding(1.dp)
             )
         }
     }
@@ -73,7 +76,8 @@ fun BookItem(
     setBookAction: KFunction1<Book, Unit>,
     modifier: Modifier = Modifier
 ){
-    Box(
+    Card(
+        shape = RoundedCornerShape(0.dp),
         modifier = modifier
             .fillMaxWidth()
             .clickable {
@@ -90,7 +94,7 @@ fun BookItem(
             BookImage(book.volumeInfo.imageLinks.smallThumbnailSrc, book.volumeInfo.title, modifier = Modifier)
             Text(
                 text = book.volumeInfo.title,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
@@ -103,7 +107,6 @@ fun BookItem(
 
 @Composable
 fun BookImage(imageSrc: String, title:String, modifier: Modifier = Modifier){
-
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -115,7 +118,7 @@ fun BookImage(imageSrc: String, title:String, modifier: Modifier = Modifier){
             contentScale = ContentScale.Crop,
             contentDescription = title,
             modifier = Modifier
-                .size(50.dp)
+                .size(100.dp)
                 .padding(10.dp)
         )
     }
