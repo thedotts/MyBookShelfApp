@@ -42,14 +42,6 @@ enum class BookShelfScreen(@StringRes val title: Int){
 fun BookShelfApp(
     navController: NavHostController = rememberNavController()
 ){
-    //Create Controller and initialization
-    //get current back stack entry
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    //get the name of the current screen
-    val currentScreen = BookShelfScreen.valueOf(
-        backStackEntry?.destination?.route?: BookShelfScreen.Start.name
-    )
-
     // Create bookShelfViewModel
     val bookShelfViewModel: BookShelfViewModel =
         viewModel(factory = BookShelfViewModel.Factory)
@@ -57,9 +49,22 @@ fun BookShelfApp(
     //get book state
     val uiState by bookShelfViewModel.uiState.collectAsState()
 
+    //Create Controller and initialization
+    //get current back stack entry
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    //get the name of the current screen
+    val currentScreen = BookShelfScreen.valueOf(
+        backStackEntry?.destination?.route?: BookShelfScreen.Start.name
+    )
+    val currentScreenTitle = if(currentScreen == BookShelfScreen.Category){
+        uiState.categoryType.toString()
+    }else{
+        stringResource(currentScreen.title)
+    }
+
     Scaffold(
         topBar = { BookShelfAppBar(
-            currentScreen = currentScreen,
+            currentScreenTitle = currentScreenTitle,
             canNavigateBack = navController.previousBackStackEntry != null,
             navigateUp = {navController.navigateUp()},
             modifier = Modifier
@@ -108,13 +113,13 @@ fun BookShelfApp(
 @Composable
 fun BookShelfAppBar(
     modifier: Modifier = Modifier,
-    currentScreen: BookShelfScreen,
+    currentScreenTitle: String,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit = {}
 ){
     TopAppBar(
         title = { Text(
-            text =stringResource(currentScreen.title),
+            text = currentScreenTitle,
             style = MaterialTheme.typography.headlineSmall
         ) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
