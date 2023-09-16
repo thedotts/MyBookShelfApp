@@ -2,6 +2,7 @@ package com.example.bookshelfapp.ui
 
 import android.util.Log
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -59,6 +60,7 @@ fun BookShelfApp(
     val uiState by bookShelfViewModel.uiState.collectAsState()
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { BookShelfAppBar(
@@ -83,7 +85,7 @@ fun BookShelfApp(
                     onFantasyButtonClicked = {bookShelfViewModel.setCategory(CategoryType.Fantasy)},
                     onFictionButtonClicked = {bookShelfViewModel.setCategory(CategoryType.Fiction)},
                     onMysteryButtonClicked = {bookShelfViewModel.setCategory(CategoryType.Mystery)},
-                    modifier = Modifier
+                    modifier = Modifier.fillMaxSize()
                 )
             }
 
@@ -94,15 +96,14 @@ fun BookShelfApp(
                     onButtonClicked = {navController.navigate(BookShelfScreen.BookInfo.name)},
                     setBookAction = bookShelfViewModel::setBook,
                     retryAction = bookShelfViewModel::getBooks,
-                    modifier = Modifier
+                    modifier = Modifier.fillMaxSize()
                 )
             }
 
             composable(route = BookShelfScreen.BookInfo.name){
                 BookScreen(
                     book = uiState.currentBook,
-
-                    modifier = Modifier
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         }

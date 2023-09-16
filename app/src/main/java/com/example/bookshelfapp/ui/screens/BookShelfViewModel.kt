@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.bookshelfapp.BookShelfApplication
 import com.example.bookshelfapp.data.BookShelfRepository
+import com.example.bookshelfapp.data.BookUiState
 import com.example.bookshelfapp.model.Book
 import com.example.bookshelfapp.model.BookItems
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,19 +34,6 @@ enum class CategoryType{
     Fantasy,
     None
 }
-
-enum class PageType{
-    Home,
-    Category,
-    BookInfo
-}
-
-data class BookUiState(
-    val pageType: PageType = PageType.Home,
-    val categoryType: CategoryType = CategoryType.None,
-    val bookList: List<Book> = emptyList(),
-    val currentBook: Book? = null,
-)
 
 class BookShelfViewModel (
     private val bookShelfRepository: BookShelfRepository
@@ -74,12 +62,10 @@ class BookShelfViewModel (
     }
 
     fun getBooks(){
-        Log.d("getBooks", _uiState.value.categoryType.toString())
         viewModelScope.launch {
             Log.d("launch", "launched")
             bookShelfUiState = BookShelfUiState.Loading
             bookShelfUiState = try{
-                Log.d("_uiState.value.categoryType", _uiState.value.categoryType.toString())
                 when(_uiState.value.categoryType){
                     CategoryType.Fiction -> BookShelfUiState.Success(bookShelfRepository.getFictionBooks())
                     CategoryType.Fantasy -> BookShelfUiState.Success(bookShelfRepository.getFantasyBooks())
@@ -91,8 +77,6 @@ class BookShelfViewModel (
                 BookShelfUiState.Error
             }
         }
-
-
     }
 
     companion object{
