@@ -1,6 +1,5 @@
 package com.example.bookshelfapp.ui.screens
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -63,7 +62,6 @@ class BookShelfViewModel (
 
     fun getBooks(){
         viewModelScope.launch {
-            Log.d("launch", "launched")
             bookShelfUiState = BookShelfUiState.Loading
             bookShelfUiState = try{
                 when(_uiState.value.categoryType){

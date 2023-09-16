@@ -1,6 +1,5 @@
 package com.example.bookshelfapp.ui
 
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -73,7 +72,6 @@ fun BookShelfApp(
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = BookShelfScreen.Start.name){
-                Log.d("BookShelfAppScreen","Start is called")
                 HomeScreen(
                     getBookAction = bookShelfViewModel::getBooks,
                     onButtonClicked = {navController.navigate(BookShelfScreen.Category.name)},
@@ -86,7 +84,6 @@ fun BookShelfApp(
             }
 
             composable(route = BookShelfScreen.Category.name){
-                Log.d("BookShelfAppScreen","Category is called")
                 CategoryScreen(
                     bookShelfUiState = bookShelfViewModel.bookShelfUiState,
                     onButtonClicked = {navController.navigate(BookShelfScreen.BookInfo.name)},

@@ -1,6 +1,5 @@
 package com.example.bookshelfapp.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -57,7 +56,6 @@ fun BookList(
     setBookAction: KFunction1<Book, Unit>,
     modifier: Modifier = Modifier
 ){
-    Log.d("BookList", books.size.toString())
     if (books.isNotEmpty()){
         LazyColumn(
             modifier = modifier
