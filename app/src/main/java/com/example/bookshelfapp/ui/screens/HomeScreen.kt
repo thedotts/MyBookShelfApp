@@ -1,18 +1,15 @@
 package com.example.bookshelfapp.ui.screens
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -27,9 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bookshelfapp.R
-import com.example.bookshelfapp.model.Book
-import com.example.bookshelfapp.model.ImageLinks
-import com.example.bookshelfapp.model.VolumeInfo
 import com.example.bookshelfapp.ui.theme.BookshelfAppTheme
 
 /**
@@ -45,21 +39,6 @@ fun HomeScreen(
     onFantasyButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-//    LazyColumn(
-//        modifier = modifier,
-//        contentPadding = PaddingValues(4.dp)
-//    ){
-//        repeat(100) {
-//            item {
-//                Text("Test  $it    ",
-//                    modifier = modifier
-//                        .padding(5.dp)
-//                        .fillMaxSize()
-//                )
-//            }
-//
-//        }
-//    }
     CategoryList(
         onFictionButtonClicked,
         onMysteryButtonClicked,

@@ -2,7 +2,6 @@ package com.example.bookshelfapp.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,13 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,15 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.bookshelfapp.R
 import com.example.bookshelfapp.model.Book
-import com.example.bookshelfapp.model.ImageLinks
-import com.example.bookshelfapp.model.VolumeInfo
-import com.example.bookshelfapp.ui.theme.BookshelfAppTheme
 import kotlin.reflect.KFunction1
 
 @Composable
@@ -73,11 +65,6 @@ fun BookList(
                 .wrapContentHeight(),
             contentPadding = PaddingValues(4.dp)
         ){
-//        repeat(100) {
-//            item {
-//                Text("Test  $it    ")
-//            }
-
             items(books){
                 BookItem(
                     book = it,
@@ -145,29 +132,3 @@ fun BookImage(imageSrc: String, title:String, modifier: Modifier = Modifier){
     }
 }
 
-
-//@Preview(showBackground = true)
-//@Composable
-//fun BookListPreview(){
-//    BookshelfAppTheme {
-//        Surface {
-//            var book = listOf<Book>(Book(
-//                id="test",
-//                volumeInfo = VolumeInfo(
-//                    title = "test",
-//                    authors = listOf("test",""),
-//                    description = "Category theory reveals commonalities between structures of all sorts. This book shows its potential in science, engineering, and beyond.",
-//                    imageLinks = ImageLinks(
-//                        smallThumbnailSrc = "",
-//                        thumbnailSrc = "http://books.google.com/books/content?id=IjGdDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-//                    )
-//                )
-//            ))
-//            BookList(
-//                books = book,
-//                onButtonClicked = {},
-//                setBookAction = {(Book) -> Unit}
-//            )
-//        }
-//    }
-//}

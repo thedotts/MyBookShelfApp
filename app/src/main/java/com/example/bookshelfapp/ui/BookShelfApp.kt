@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.example.bookshelfapp.ui.screens.BookShelfViewModel
 import com.example.bookshelfapp.ui.screens.HomeScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -59,17 +58,14 @@ fun BookShelfApp(
     //get book state
     val uiState by bookShelfViewModel.uiState.collectAsState()
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { BookShelfAppBar(
             currentScreen = currentScreen,
             canNavigateBack = navController.previousBackStackEntry != null,
-            navigateUp = {navController.navigateUp()}
+            navigateUp = {navController.navigateUp()},
+            modifier = Modifier
         )}
     ) {innerPadding ->
-
         //Navigation host
         NavHost(
             navController = navController,
@@ -114,10 +110,10 @@ fun BookShelfApp(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookShelfAppBar(
+    modifier: Modifier = Modifier,
     currentScreen: BookShelfScreen,
     canNavigateBack: Boolean,
-    navigateUp: () -> Unit = {},
-    modifier: Modifier = Modifier
+    navigateUp: () -> Unit = {}
 ){
     TopAppBar(
         title = { Text(

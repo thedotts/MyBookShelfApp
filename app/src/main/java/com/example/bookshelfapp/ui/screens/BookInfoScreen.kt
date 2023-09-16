@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -37,16 +39,24 @@ fun BookScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
+
     ){
-        ImageContainer(book!!.volumeInfo.imageLinks.thumbnailSrc, book.volumeInfo.title, modifier = modifier.padding(15.dp).weight(1f))
+        ImageContainer(book!!.volumeInfo.imageLinks.thumbnailSrc, book.volumeInfo.title, modifier = Modifier
+            .padding(15.dp)
+            .weight(1f))
         Spacer(modifier = Modifier.padding(top = 5.dp))
-        BookDetail(book, modifier = modifier.padding(15.dp).weight(1f))
+        BookDetail(book, modifier = Modifier
+            .padding(15.dp)
+            .weight(2f))
     }
 }
 
 @Composable
 fun ImageContainer(imageSrc: String, title:String, modifier: Modifier = Modifier){
-    Box(modifier){
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+    ){
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current).data(imageSrc.replace("http","https"))
                 .crossfade(true).build(),
@@ -61,22 +71,25 @@ fun ImageContainer(imageSrc: String, title:String, modifier: Modifier = Modifier
 
 @Composable
 fun BookDetail( book: Book, modifier: Modifier = Modifier){
-    Column (modifier = modifier){
-        Text(
-            text = "${book.volumeInfo.title} (${book.volumeInfo.authors.joinToString(",")})",
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.padding(5.dp))
-        Text(
-            text = book.volumeInfo.description,
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Justify,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        )
+    Box (modifier = modifier
+        .verticalScroll(rememberScrollState())
+    ){
+        Column (){
+            Text(
+                text = "${book.volumeInfo.title} (${book.volumeInfo.authors.joinToString(",")})",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.padding(5.dp))
+            Text(
+                text = book.volumeInfo.description,
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Justify,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
     }
 }
 
@@ -86,7 +99,7 @@ fun BookDetail( book: Book, modifier: Modifier = Modifier){
 fun BookScreenPreview(){
     BookshelfAppTheme {
         Surface {
-            var book:Book = Book(
+            val book = Book(
                 id="test",
                 volumeInfo = VolumeInfo(
                     title = "test",
